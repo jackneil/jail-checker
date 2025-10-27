@@ -2,23 +2,88 @@
 
 Automated tool to check defendant custody status in Dorchester County SC jail database.
 
-## 🚀 First Time Setup - Getting the Code
+## ⚡ SIMPLEST WAY TO USE THIS
 
-**Choose one method:**
+**Just want to check custody status right now? Here's how:**
+
+1. **Download this repository as ZIP**
+   - Go to https://github.com/jackneil/jail-checker
+   - Click green "Code" button → "Download ZIP"
+   - Extract anywhere on your computer
+
+2. **Open the HTML file**
+   - Navigate to the `web` folder
+   - Double-click `custody-checker.html` (opens in your browser)
+
+3. **Drop your PDF**
+   - Drag your Prosecutor Worklist Report PDF onto the page
+   - Wait ~30 seconds while it checks 200+ defendants
+   - Click "Download Excel" to save the report
+
+**That's it. No installation, no setup, no bullshit.**
+
+The proxy server is already deployed and working. Just use the HTML file.
+
+---
+
+## 🎯 Which Version Should I Use?
+
+### Browser Version (Simplest)
+**Use this if:** You just want it to work right now.
+
+**Pros:**
+- ✅ Zero setup - just open the HTML file
+- ✅ Works on any computer with Chrome/Edge
+- ✅ Fast parallel loading (5 pages at once)
+- ✅ Portable - copy to USB drive and use anywhere
+
+**Cons:**
+- ⚠️ Relies on cloud proxy (if it goes down, you're stuck)
+- ⚠️ Excel export doesn't embed mugshot images (browser limitation)
+- ⚠️ Requires internet connection
+
+**File location:** `web/custody-checker.html`
+
+### Python Version (Full Features)
+**Use this if:** You want prettier Excel files with embedded mugshots and don't want to rely on a cloud proxy.
+
+**Pros:**
+- ✅ Excel files have embedded 100x125px mugshots for in-custody defendants
+- ✅ Works offline after initial setup
+- ✅ More control over output format
+- ✅ Not dependent on external proxy server
+
+**Cons:**
+- ⚠️ Requires Python/conda environment setup (one-time, 5 minutes)
+- ⚠️ Slightly more steps to run
+
+**How to use:**
+1. Run `scripts\setup.bat` (first time only)
+2. Drop PDF into `input/` folder
+3. Double-click `scripts\run_check.bat`
+4. Open Excel file in `output/` folder
+
+---
+
+## 🔧 Optional: Deploy Your Own Proxy
+
+The HTML file is hardcoded to use a proxy server that's already deployed and working. But if you want to deploy your own (for redundancy or control), see `DEPLOY.md` for instructions.
+
+**You don't need to do this unless:**
+- The existing proxy stops working
+- You want your own private proxy server
+- You're paranoid about using someone else's server
+
+---
+
+## 📥 Getting the Code
 
 ### Method 1: Download ZIP (Simplest)
 
-1. **Go to the GitHub page:**
-   👉 https://github.com/jackneil/jail-checker
-
-2. **Click the green "Code" button** → **"Download ZIP"**
-   > *[Screenshot needed: GitHub Code button with Download ZIP highlighted]*
-
-3. **Extract the ZIP file** to `C:\Github\jail-checker\`
-   - Right-click the downloaded file → "Extract All..."
-   - Choose `C:\Github\` as the location
-
-4. **Done!** Skip to the "TL;DR - Monday Morning Workflow" section below.
+1. Go to https://github.com/jackneil/jail-checker
+2. Click green "Code" button → "Download ZIP"
+3. Extract to `C:\Github\jail-checker\` (or anywhere you want)
+4. Done!
 
 ### Method 2: Git Clone (Better for Updates)
 
@@ -27,35 +92,22 @@ Automated tool to check defendant custody status in Dorchester County SC jail da
 1. **Download Git for Windows:**
    👉 https://git-scm.com/download/win
    - Click "Click here to download" (64-bit version)
-   > *[Screenshot needed: Git download page]*
 
 2. **Run the installer** (`Git-2.x.x-64-bit.exe`)
    - Click "Next" through all screens
-   - **Use default settings** (they're fine)
-   > *[Screenshot needed: Git installer welcome screen]*
+   - Use default settings
 
 3. **Verify installation:**
-   - Open **PowerShell** or **Command Prompt**
+   - Open PowerShell
    - Type: `git --version`
    - You should see something like: `git version 2.x.x`
-   > *[Screenshot needed: PowerShell showing git version command]*
 
 **Then clone the repository:**
 
-4. **Open PowerShell** (Start menu → type "PowerShell")
-
-5. **Navigate to where you want the code:**
-   ```powershell
-   cd C:\Github
-   ```
-
-6. **Clone the repository:**
-   ```powershell
-   git clone https://github.com/jackneil/jail-checker.git
-   ```
-   > *[Screenshot needed: PowerShell showing git clone command completing]*
-
-7. **Done!** The code is now in `C:\Github\jail-checker\`
+```powershell
+cd C:\Github
+git clone https://github.com/jackneil/jail-checker.git
+```
 
 ### 💡 Why Git Clone is better:
 - Easy updates: Just run `git pull` to get new features
@@ -74,43 +126,22 @@ This tool queries the Dorchester County Sheriff's Office jail booking system to 
 - ✅ Sorts in-custody defendants to the top for quick review
 - ✅ No authentication required - uses public booking records
 - ✅ 100% accurate PDF extraction with matter/case number tracking
+- ✅ Parallel loading for 5x faster results
 
-## TL;DR - Monday Morning Workflow
+## Monday Morning Workflow
 
-**(Already got the code? If not, see "First Time Setup" above)**
+**Browser Version:**
+1. Open `web/custody-checker.html` in Chrome
+2. Drag your PDF onto the page
+3. Wait 30 seconds
+4. Download Excel
 
-**Choose your method:**
+**Python Version:**
+1. Drop PDF into `input/` folder
+2. Double-click `scripts\run_check.bat`
+3. Open Excel file in `output/` folder
 
-### Option 1: Browser Version (One-Time Setup Required)
-
-**First time only - Deploy the proxy** (takes 5 minutes, see `DEPLOY.md`):
-```powershell
-npm install -g vercel
-vercel login
-cd C:\Github\jail-checker
-vercel
-```
-
-**Then every time:**
-1. **Open** `web/custody-checker.html` in Google Chrome
-2. **Drag your PDF** onto the page
-3. **Wait 30 seconds** - results appear in a table
-4. **Click "Download Excel"** to save the report
-
-**Note:** Browser version requires a free serverless proxy (handles API sessions). After one-time Vercel deployment, works from any computer.
-
-### Option 2: Python Version (Full Features)
-
-1. **Drop your PDF** into the `input/` folder
-2. **Double-click** `scripts/run_check.bat`
-3. **Open the Excel file** in `output/` folder - red rows = in custody
-
-**Both versions:**
-- Check 200+ defendants in under a minute
-- Download Excel reports with color-coded results
-- Access live jail database (300+ current inmates)
-
-Everything below is if something breaks or you want details.
+Everything below is technical details and troubleshooting.
 
 ---
 
