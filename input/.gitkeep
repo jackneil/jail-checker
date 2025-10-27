@@ -1,0 +1,6 @@
+# This folder is for your defendant list files
+# Place your CSV or PDF files here
+#
+# Supported formats:
+# - Prosecutor Worklist Report.pdf
+# - Active Cases By Assigned Personnel Detail.csv

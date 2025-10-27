@@ -1,0 +1,1206 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+      <!-- Begin Security -->
+    <meta http-equiv="Content-Security-Policy" content="
+    base-uri 'self';
+    connect-src 'self' https://maps.googleapis.com;
+    default-src 'self';
+    font-src 'self' https://fonts.gstatic.com;
+    frame-src 'self';
+    img-src 'self' data: https://api.mapbox.com https://maps.googleapis.com https://maps.gstatic.com;
+    manifest-src 'self';
+    media-src 'self';
+    object-src 'none';
+    script-src 'report-sample' 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.js https://maps.googleapis.com/maps/api/js https://unpkg.com/leaflet@1.7.1/dist/leaflet.js https://www.gstatic.com/charts/loader.js;
+    style-src 'report-sample' 'self' https://fonts.googleapis.com https://stackpath.bootstrapcdn.com https://unpkg.com;
+    worker-src 'none';">
+      <meta X-Content-Type-Options="nosniff">
+      <meta name="Referrer-Policy" value="no-referrer | same-origin"/>
+      <!-- End Security -->
+      <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Citizen Connect</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../assets/css/demo_3/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="../assets/images/favicon.png" />
+
+      <link rel="stylesheet" href="../themes/CCThemeDefault.css">
+      <link rel="stylesheet" href="../ccmain.css">
+
+
+  </head>
+  <body class="ccthemebody">
+  <div class="container-scroller">
+      <!-- partial:partials/_horizontal-navbar.html -->
+      <div class="horizontal-menu" >
+          <nav class="col-lg-12 col-12 p-0 cctheme"  >
+              <div class="container">
+                  <div class="text-center align-items-center justify-content-center cctheme" >
+                      <div class="row cctheme">
+                          <div class="col-xl-3 col-lg-3 col-sm-3"  id="agencynamedesktop">
+                                  <img src="../images/CCHeaderLogo.svg" alt="" >
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-sm-3"   id="agencynamemobile">
+                              <img class="badge-image" src="../images/cclogo-mini.svg" alt="">
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6" style="padding: 10px;" id="badge">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="container" style="display: flex;justify-content: right">
+                  <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
+                      <span class="mdi mdi-menu"></span>
+                  </button>
+              </div>
+          </nav>
+          <nav class="bottom-navbar ccthemenavbar">
+              <div class="container ccthemenavbar">
+                  <ul class="nav page-navigation">
+                      
+<li class="nav-item mega-menu">
+    <a href="#" class="nav-link">
+        <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+        <span class="menu-title">Agencies</span>
+        <i class="menu-arrow"></i>
+    </a>
+    <div class="submenu">
+        <div class="col-group-wrapper row">
+            <div class="col-group col-md-4">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="category-heading">Agencies</p>
+                        <div class="submenu-item">
+
+                                    <ul>
+                                        <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=AbbevilleCo911SC">Abbeville County E911 SC</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=AberdeenPDNC">Aberdeen Police Department NC</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=BerkelyCoSC">Berkeley County Sheriffs Office SC</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=BessemerPDNC">Bessemer City Police Department NC</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=ChesterfieldCoDetCtr">Chesterfield County Detention Center SC</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=ChiltonCoAL">Chilton County Sheriff's Office AL</a></li>
+                                    </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-group col-md-4">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="category-heading"></p>
+                        <div class="submenu-item">
+
+
+
+                            <ul>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=CrockettCoTX">Crockett County Sheriffs Office TX</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=DaphnePDAL">Daphne Police Department AL</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=DuplinCoNC">Duplin County Sheriffs Office NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=EdgecombeCoNC">Edgecombe County Sheriff's Office NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=FairhopePDAL">Fairhope Police Department AL</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=FlorenceCo911SC">Florence County 911 SC</a></li>
+                            </ul>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-group col-md-4">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="category-heading"></p>
+                        <div class="submenu-item">
+
+
+
+                            <ul>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=ForestCityPDNC">Forest City Police Department NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=FranklinPDVA">Franklin Police Department VA</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=HaywoodCoTN">Haywood County Sheriff's Office TN</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=HendersonCoNC">Henderson County Sheriffs Office NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=HenryCoSOVA">Henry County Sheriff's Office VA</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=HoustonCoAL">Houston County Sheriffs Office AL</a></li>
+                            </ul>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-group col-md-4">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="category-heading"></p>
+                        <div class="submenu-item">
+
+
+
+                            <ul>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=PinehurstPDNC">Pinehurst Police Department NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=PolkCoNC">Polk County Sheriffs Office NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=PolkCoTX">Polk County Sheriff's Office TX</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=RoaneCoTN">Roane County Sheriffs Office TN</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=SampsonCoNC">Sampson County Sheriffs Office NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=ScotlandCoNC">Scotland County Sheriff's Office NC</a></li>
+                            </ul>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-group col-md-4">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="category-heading"></p>
+                        <div class="submenu-item">
+
+
+
+                            <ul>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=SouthernPinesPDNC">Southern Pines Police Department NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=TransylvaniaCoNC">Transylvania County NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=UNCGPDNC">UNC Greensboro Police Department NC</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../index/index.php?AgencyID=WarrenCoVA">Warren County Sheriffs Office VA</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li class="nav-item">
+    <a href="../login" class="nav-link">
+        <i class="mdi mdi-account menu-icon"></i>
+        <span class="menu-title">Login</span>
+        </a>
+</li>
+                  </ul>
+              </div>
+          </nav>
+      </div>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <div class="main-panel" >
+          <div class="content-wrapper">
+
+              
+
+                    <div class="row" style="text-align: center;">
+
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/911.png" alt="Abbeville County E911">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Abbeville County E911</h5>
+                                    <p class="card-text">903 W. Greenwood Street <br> Abbeville, SC 29620</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(846) 366-2061</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=AbbevilleCo911SC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                                <div class="row" style="margin-top: 10px">
+                                        <a href="../CADCFS_Public/index.php?AgencyID=AbbevilleCo911SC" class="btn btn-primary index-card-button">Active Calls</a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/AberdeenPDNC.png" alt="Aberdeen Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Aberdeen Police Department</h5>
+                                    <p class="card-text">804 N Sandhills Blvd <br> Aberdeen, NC 28315</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(910) 944-9721</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=AberdeenPDNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=AberdeenPDNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/ArcherCoTX.png" alt="Archer County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Archer County Sheriff's Office</h5>
+                                    <p class="card-text">100 Law Enforcement Way <br> Archer City, TX 76351</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(940) 574-2571</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=ArcherCoTX" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=ArcherCoTX" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/BerkelyCoSC.png" alt="Berkeley County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Berkeley County Sheriffs Office</h5>
+                                    <p class="card-text">223 N Live Oak Dr <br> Moncks Corner, SC 29461</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(843) 719-4465</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=BerkelyCoSC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=BerkelyCoSC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge2.png" alt="Bertie County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Bertie County Sheriffs Office</h5>
+                                    <p class="card-text">222 County Farm Rd <br> Windsor, NC 27983</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(252) 794-5330</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=BertieCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge.png" alt="Bessemer City Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Bessemer City Police Department</h5>
+                                    <p class="card-text">132 W Virginia Ave <br> Bessemer City, NC 28016</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(704) 629-2235</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=BessemerPDNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=BessemerPDNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/BotetourtCoVA.png" alt="Botetourt County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Botetourt County Sheriffs Office</h5>
+                                    <p class="card-text">205 N. Roanoke Street Post Office Box 18 <br> Fincastle, VA 24090</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(540) 928-2200</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=BotetourtCoVA" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=BotetourtCoVA" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge2.png" alt="Chesterfield County Detention Center">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Chesterfield County Detention Center</h5>
+                                    <p class="card-text">319 Goodale Road   <br> Chesterfield, SC, SC 29709</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(843) 623-3385</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=ChesterfieldCoDetCtr" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=ChesterfieldCoDetCtr" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge2.png" alt="Chilton County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Chilton County Sheriff's Office</h5>
+                                    <p class="card-text">500 2nd Ave N <br> Clanton, AL 35045</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(205) 755-4698</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=ChiltonCoAL" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=ChiltonCoAL" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/CrockettCoTX.png" alt="Crockett County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Crockett County Sheriffs Office</h5>
+                                    <p class="card-text">121 Highway 163 South <br> Ozona, TX 76943</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(325) 392-2661</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=CrockettCoTX" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=CrockettCoTX" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/DaphnePDAL.png" alt="Daphne Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Daphne Police Department</h5>
+                                    <p class="card-text">1502 US Hwy 98  <br> Daphne, AL 36526</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(251) 620-0100</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=DaphnePDAL" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=DaphnePDAL" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=DaphnePDAL" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../CADCFS_Public/index.php?AgencyID=DaphnePDAL" class="btn btn-primary index-card-button">Active Calls</a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge2.png" alt="Decatur County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Decatur County Sheriff's Office</h5>
+                                    <p class="card-text">912 Spring Creek Road <br> Bainbridge, GA 39817</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(229) 248-3044</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=DecaturCoSOGA" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=DecaturCoSOGA" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/DecaturCoTN.png" alt="Decatur County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Decatur County Sheriff's Office</h5>
+                                    <p class="card-text">138 East Main St. <br> Decaturville, TN 38329</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(731) 852-3703</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=DecaturCoTN" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=DecaturCoTN" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/DewittCoTX.png" alt="DeWitt County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">DeWitt County Sheriffs Office</h5>
+                                    <p class="card-text">208 East Live Oak Street <br> Cuero, TX 77954</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(361) 275-5734</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=DewittCoTX" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=DewittCoTX" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/DorchesterCoSC.png" alt="Dorchester County Sheriff's Office ">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Dorchester County Sheriff's Office </h5>
+                                    <p class="card-text">212 Deming Way <br> Summerville, SC 29483</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(843) 832-0300</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=DorchesterCoSC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=DorchesterCoSC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/DuplinCoNC.png" alt="Duplin County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Duplin County Sheriff's Office</h5>
+                                    <p class="card-text">112 West Hill St <br> Kenansville, NC 28349</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(910) 296-2150</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=DuplinCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=DuplinCoNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=DuplinCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/EdgecombeCoNC.png" alt="Edgecombe County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Edgecombe County Sheriff's Office</h5>
+                                    <p class="card-text">3005 Anaconda Rd <br> Tarboro, NC 27886</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(252) 641-7911</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=EdgecombeCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=EdgecombeCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../CADCFS_Public/index.php?AgencyID=EdgecombeCoNC" class="btn btn-primary index-card-button">Active Calls</a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/FairhopePDAL.png" alt="Fairhope Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Fairhope Police Department</h5>
+                                    <p class="card-text">107 N Section St <br> Fairhope, AL 36532</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(251) 928-2385</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=FairhopePDAL" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=FairhopePDAL" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/911.png" alt="Florence County 911">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Florence County 911</h5>
+                                    <p class="card-text">1221 Justice Way <br> Effingham, SC 29541</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(843) 669-3911</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=FlorenceCo911SC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                                <div class="row" style="margin-top: 10px">
+                                        <a href="../CADCFS_Public/index.php?AgencyID=FlorenceCo911SC" class="btn btn-primary index-card-button">Active Calls</a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/ForestCityPDNC.png" alt="Forest City Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Forest City Police Department</h5>
+                                    <p class="card-text">187 S. Church Street <br> Forest City, NC 28043</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(828) 245-5555</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=ForestCityPDNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=ForestCityPDNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/FranklinPDVA.png" alt="Franklin Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Franklin Police Department</h5>
+                                    <p class="card-text">1018 Pretlow St <br> Franklin, VA 23851</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(757) 562-8575</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=FranklinPDVA" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=FranklinPDVA" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/HendersonCoNC.png" alt="Henderson County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Henderson County Sheriffs Office</h5>
+                                    <p class="card-text">100 N Grove St <br> Hendersonville, NC 28792</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(828) 697-4596</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=HendersonCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=HendersonCoNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=HendersonCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/HenryCoSOVA.png" alt="Henry County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Henry County Sheriff's Office</h5>
+                                    <p class="card-text">3250 Kings Mountain Rd <br> Martinsville, VA 24112</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(276) 656-4200</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=HenryCoSOVA" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=HenryCoSOVA" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=HenryCoSOVA" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/HoustonCoAL.png" alt="Houston County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Houston County Sheriffs Office</h5>
+                                    <p class="card-text">411 N. Foster St. <br> Dothan, AL 36303</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(334) 677-4882</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=HoustonCoAL" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=HoustonCoAL" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/JacksonCoTX.png" alt="Jackson County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Jackson County Sheriff's Office</h5>
+                                    <p class="card-text">115 W. Main <br> Edna, TX 77957</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(361) 782-3541</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=JacksonCoTX" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/KaufmanCoTX.png" alt="Kaufman County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Kaufman County Sheriff's Office</h5>
+                                    <p class="card-text">1900 E US175 <br> Kaufman, TX 75142</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(972) 932-4337</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=KaufmanCoTX" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/LeeCoSOGA.png" alt="Lee County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Lee County Sheriff's Office</h5>
+                                    <p class="card-text">119 Pinewood Road  <br> Leesburg, GA 31763</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(229) 759-6034</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=LeeCoSOGA" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=LeeCoSOGA" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=LeeCoSOGA" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge.png" alt="Moncks Corner Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Moncks Corner Police Department</h5>
+                                    <p class="card-text">118 Carolina Ave.  <br> Moncks Corner , SC 29461</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(843) 719-7930</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=MoncksCornerPDSC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge.png" alt="Muscle Shoals Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Muscle Shoals Police Department</h5>
+                                    <p class="card-text">1000 Avalon Avenue <br> Muscle Shoals, AL 35661</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(256) 383-6746</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=MuscleShoalsPDAL" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/NolanCoTX.png" alt="Nolan County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Nolan County Sheriff's Office</h5>
+                                    <p class="card-text">211 Avenger Field Road <br> Sweetwater, TX 79556</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(325) 235-5471</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=NolanCoTX" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=NolanCoTX" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/PinehurstPDNC.png" alt="Pinehurst Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Pinehurst Police Department</h5>
+                                    <p class="card-text">420 Magnolia Rd <br> Pinehurst, NC 28374</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(910) 295-3141</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=PinehurstPDNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=PinehurstPDNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/PolkCoE911NC.png" alt="Polk County E911 Communications">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Polk County E911 Communications</h5>
+                                    <p class="card-text">PO Box 308 <br> Columbus, NC 28722</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(828) 894-0187</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=PolkCoE911NC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                                <div class="row" style="margin-top: 10px">
+                                        <a href="../CADCFS_Public/index.php?AgencyID=PolkCoE911NC" class="btn btn-primary index-card-button">Active Calls</a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/PolkCoNC.png" alt="Polk County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Polk County Sheriffs Office</h5>
+                                    <p class="card-text">164 Government Complex <br> Columbus, NC 28722</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(828) 894-3001</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=PolkCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=PolkCoNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=PolkCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/PolkCoTX.png" alt="Polk County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Polk County Sheriff's Office</h5>
+                                    <p class="card-text">1733 N Washington Ave <br> Livingston, TX 77351</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(936) 327-6810</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=PolkCoTX" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=PolkCoTX" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=PolkCoTX" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge2.png" alt="Roane County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Roane County Sheriffs Office</h5>
+                                    <p class="card-text">230 N Third St <br> Kingston, TN 37763</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(865) 376-5582</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=RoaneCoTN" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=RoaneCoTN" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge.png" alt="Roanoke Rapids Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Roanoke Rapids Police Department</h5>
+                                    <p class="card-text">1040 Roanoke Avenue <br> Roanoke Rapids, NC 27870</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(252) 533-2810</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=RoanokeRapidsPDNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge2.png" alt="Rockbridge County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Rockbridge County Sheriff's Office</h5>
+                                    <p class="card-text">258 Greenhouse Road <br> Lexington, VA 24450</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(540) 463-7329</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=RockbridgeCoVA" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=RockbridgeCoVA" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/SampsonCoNC.png" alt="Sampson County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Sampson County Sheriffs Office</h5>
+                                    <p class="card-text">112 Fontana St <br> Clinton, NC 28328</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(910) 592-4141</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=SampsonCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=SampsonCoNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=SampsonCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/ScotlandCoNC.png" alt="Scotland County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Scotland County Sheriff's Office</h5>
+                                    <p class="card-text">212 Biggs St <br> Laurinburg, NC 28352</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(910) 276-3385</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=ScotlandCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=ScotlandCoNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=ScotlandCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/SherwoodPDAR.png" alt="Sherwood Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Sherwood Police Department</h5>
+                                    <p class="card-text">2201 East Kiehl Avenue <br> Sherwood, AR 72120</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(501) 835-1425</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=SherwoodPDAR" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=SherwoodPDAR" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/SouthernPinesPDNC.png" alt="Southern Pines Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Southern Pines Police Department</h5>
+                                    <p class="card-text">450 W Pennsylvania Ave <br> Southern Pines, NC 28387</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(910) 692-2732</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=SouthernPinesPDNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=SouthernPinesPDNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/StokesCoNC.png" alt="Stokes County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Stokes County Sheriff's Office</h5>
+                                    <p class="card-text">P.O. Box 118 <br> Danbury, NC 27016</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(336) 593-8787</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=StokesCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=StokesCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge2.png" alt="Surry County Sheriff's Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Surry County Sheriff's Office</h5>
+                                    <p class="card-text">218 N Main St <br> Dobson, NC 27017</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(336) 401-8900</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=SurryCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=SurryCoNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=SurryCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                        </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/TransylvaniaCoNC.png" alt="Transylvania County">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Transylvania County</h5>
+                                    <p class="card-text">Public Safety Way <br> Brevard, NC 28712</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(828) 884-3188</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=TransylvaniaCoNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=TransylvaniaCoNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../bookingsearch/index.php?AgencyID=TransylvaniaCoNC" class="btn btn-primary index-card-button">Confinements</a>
+                                    </div>
+                                                                                                            <div class="row" style="margin-top: 10px">
+                                        <a href="../CADCFS_Public/index.php?AgencyID=TransylvaniaCoNC" class="btn btn-primary index-card-button">Active Calls</a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/badge.png" alt="UNC Greensboro Police Department">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">UNC Greensboro Police Department</h5>
+                                    <p class="card-text">1200 W Gate City Blvd <br> Greensboro, NC 27402</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(336) 334-5963</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=UNCGPDNC" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=UNCGPDNC" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                                                    <div class="col-xl-3 col-lg-4 col-sm-12 d-flex justify-content-center" >
+                            <div class="card index-agency-card">
+                                <div class="index-agency-card-header-bg">
+                                    <img class="card-img-top index-agency-card-image" src="../images/AgencyImages/WarrenCoVA.png" alt="Warren County Sheriffs Office">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Warren County Sheriffs Office</h5>
+                                    <p class="card-text">200 Skyline Vista Dr <br> Front Royal, VA 22630</p>
+                                    <!--<p class="card-text"></p>-->
+                                    <p class="card-text">(540) 635-4128</p>
+                                    <div class="row">
+                                        <a href="index.php?AgencyID=WarrenCoVA" class="btn btn-primary index-card-button">Agency</a>
+                                    </div>
+                                                                        <div class="row" style="margin-top: 10px">
+                                        <a href="../dayreport_incident/index.php?AgencyID=WarrenCoVA" class="btn btn-primary index-card-button">Daily Report</a>
+                                    </div>
+                                                                                                                                            </div>
+                            </div>
+                            </div>
+                        
+                    </div>
+
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div class="footer-inner-wraper">
+              <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://www.southernsoftware.com/" target="_blank">Southern Software, Inc</a>. All rights reserved.</span>
+
+              </div>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="../assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="../assets/vendors/jquery-circle-progress/js/circle-progress.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../assets/js/off-canvas.js"></script>
+    <script src="../assets/js/hoverable-collapse.js"></script>
+    <script src="../assets/js/misc.js"></script>
+    <script src="../assets/js/settings.js"></script>
+    <script src="../assets/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="../assets/js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+      <script src="../ccmain.js" async></script>
+  </body>
+</html>
+
+<script src="ccmain.js"></script>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Access Denied</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 50px; 
+            text-align: center;
+            background: #f5f5f5;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 30px; 
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #d9534f; }
+        .icon { font-size: 48px; color: #d9534f; }
+        .details { 
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #f8f9fa; 
+            border-radius: 5px;
+            text-align: left;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🚫</div>
+        <h1>Access Denied</h1>
+        <p>Automated access to this resource is not permitted.</p>
+        <p>If you are a legitimate user, please ensure you are using a standard web browser.</p>
+        <div class="details">
+            <strong>Request Details:</strong><br>
+            IP: 169.254.129.1<br>
+            Path: /index/index2.php<br>
+            Time: 2025-10-27 16:47:25
+        </div>
+    </div>
+</body>
+</html>
+    

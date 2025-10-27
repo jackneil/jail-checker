@@ -1,0 +1,83 @@
+================================================================================
+JAIL CUSTODY CHECKER - QUICK START GUIDE
+================================================================================
+
+FIRST TIME SETUP:
+-----------------
+1. Double-click setup.bat
+   (This creates the jail_checker conda environment and installs packages)
+
+2. Wait for installation to complete
+   (You'll see "Setup Complete!" when done)
+
+MONDAY MORNING USAGE (SUPER SIMPLE):
+-------------------------------------
+1. Put your defendant list in the "input" folder
+   - PDF format RECOMMENDED (Prosecutor Worklist Report)
+   - CSV format also supported (but may have truncated names)
+
+2. Double-click run_check.bat
+   (That's it! No file name needed - it auto-finds files and prefers PDF)
+
+3. Wait while it checks custody (about 2 seconds per defendant)
+
+4. Review the results:
+   - Console shows who's in custody
+   - Excel report in "output" folder has full details
+
+THAT'S IT! Just 2 steps!
+
+SAMPLE FILES:
+-------------
+Your repo already has two sample files you can test with:
+- Active Cases By Assigned Personnel Detail.csv (242 cases)
+- Prosecutor Worklist Report.pdf (206 cases)
+
+Move them to the "input" folder and run a test!
+
+REPORTS LOCATION:
+-----------------
+All reports are saved in the "output" folder:
+- JSON file (for future web version)
+- Excel file (easy to read)
+  - Summary sheet
+  - All Results sheet (color-coded)
+  - In Custody Only sheet (filtered)
+
+COLORS IN EXCEL:
+----------------
+- RED = In custody (take action!)
+- GREEN = Not in custody
+- YELLOW = Error checking status
+
+MANUAL COMMANDS (ADVANCED):
+---------------------------
+Specify a specific file instead of auto-detect:
+run_check.bat "input\specific_file.csv"
+
+Or use Python directly:
+conda activate jail_checker
+python src\main.py "input\your_file.csv"
+
+TROUBLESHOOTING:
+----------------
+- "conda not found" = Install Anaconda/Miniconda first
+- "jail_checker not found" = Run setup.bat again
+- "Module not found" = Run: conda activate jail_checker && pip install -r requirements.txt
+
+NEED HELP?
+----------
+See README_USAGE.md for complete documentation
+
+CONDA ENVIRONMENT:
+------------------
+- Name: jail_checker
+- Python Version: 3.11
+- Location: Managed by conda (automatic)
+
+TO REINSTALL:
+-------------
+1. conda remove -n jail_checker --all -y
+2. Double-click setup.bat
+
+================================================================================

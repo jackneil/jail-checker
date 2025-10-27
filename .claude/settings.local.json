@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "WebFetch(domain:cc.southernsoftware.com)",
+      "WebSearch",
+      "WebFetch(domain:dorchesterjailroster.org)",
+      "Bash(C:/Users/jack/.conda/envs/krac_llm/python.exe:*)",
+      "Bash(C:/Users/jack/.conda/envs/jail_checker/python.exe -c:*)",
+      "Bash(C:/Users/jack/.conda/envs/jail_checker/python.exe \"C:\\Github\\jail-checker\\test_full_pdf_extraction.py\")",
+      "Bash(curl:*)",
+      "Bash(git update-ref:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

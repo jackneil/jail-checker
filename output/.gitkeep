@@ -1,0 +1,7 @@
+# This folder is where generated reports are saved
+#
+# After running the custody check, you'll find:
+# - Excel reports (.xlsx) with color-coded results
+# - JSON reports (.json) for programmatic access
+#
+# Files are named: [input_filename]_custody_[timestamp].xlsx

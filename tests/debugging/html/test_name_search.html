@@ -1,0 +1,231 @@
+
+<style>
+/* Enhanced booking card styling */
+.booking-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.booking-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
+.booking-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 15px 20px;
+    margin: -20px -20px 20px -20px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.booking-header h5 {
+    margin: 0;
+    color: #1e3c72;
+    font-weight: 600;
+}
+
+.booking-number {
+    background: #1e3c72;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.booking-mugshot {
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border: 3px solid #fff;
+}
+
+.booking-details {
+    font-size: 14px;
+}
+
+.detail-row {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #6c757d;
+    min-width: 140px;
+    flex-shrink: 0;
+}
+
+.detail-value {
+    color: #333;
+    flex: 1;
+}
+
+.charges-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.charges-header {
+    color: #1e3c72;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.charge-count {
+    background: #1e3c72;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.charge-item {
+    padding: 12px 0;
+    border-bottom: 1px dashed #dee2e6;
+    color: #333;
+}
+
+.charge-item:last-child {
+    border-bottom: none;
+}
+
+.charge-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: #6c757d;
+    color: white;
+    text-align: center;
+    line-height: 1;
+    border-radius: 50%;
+    font-size: 13px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.charge-details {
+    flex: 1;
+    color: #212529;
+}
+
+.charge-agency {
+    color: #6c757d;
+    font-size: 13px;
+}
+
+.bond-info {
+    background: #e7f3ff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+    font-size: 13px;
+    border-left: 3px solid #1e3c72;
+}
+
+.bond-amount {
+    color: #1e3c72;
+    font-weight: 600;
+}
+
+/* Status badges */
+.time-badge-released {
+    background: #6c757d;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+.date-badge {
+    background: #17a2b8;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+/* View Details Button */
+.btn-outline-primary {
+    color: #1e3c72;
+    border-color: #1e3c72;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    border-color: #1e3c72;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 60, 114, 0.2);
+}
+
+.btn-outline-primary i {
+    margin-right: 5px;
+}
+
+/* Released indicator badge */
+.badge-success {
+    background-color: #28a745 !important;
+    color: white;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .booking-mugshot {
+        width: 80px;
+        height: 100px;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+    }
+    
+    .detail-label {
+        min-width: auto;
+        margin-bottom: 4px;
+    }
+}
+
+/* Empty state */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.no-results i {
+    font-size: 48px;
+    color: #dee2e6;
+    margin-bottom: 15px;
+}
+</style>
+<div class="mb-3">
+            <h5 class="text-muted">Name Search Results for Last: Smith: <span class="text-primary">0</span></h5>
+          </div><div class="no-results">
+                <i class="mdi mdi-account-search"></i>
+                <h4>No inmates found</h4>
+                <p>No results match your search criteria.</p>
+              </div>

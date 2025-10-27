@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dorchester County Jail Custody Checker</title>
+
+    <!-- PDF.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+
+    <!-- SheetJS Library for Excel Export -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        #dropZone {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 60px 20px;
+            text-align: center;
+            background: #f8f9ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        #dropZone:hover {
+            background: #e8ebff;
+            border-color: #5568d3;
+        }
+
+        #dropZone.dragover {
+            background: #d0d5ff;
+            border-color: #4c5fd8;
+            transform: scale(1.02);
+        }
+
+        #dropZone .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        #dropZone p {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        #dropZone small {
+            display: block;
+            margin-top: 10px;
+            color: #888;
+        }
+
+        .options {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .options input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        #progress {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e8f4fd;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+            display: none;
+        }
+
+        #progress.visible {
+            display: block;
+        }
+
+        #progress .status {
+            font-weight: 600;
+            color: #1976D2;
+            margin-bottom: 5px;
+        }
+
+        #progress .details {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .summary-card {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+        }
+
+        .summary-card.total {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .summary-card.in-custody {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .summary-card.not-in-custody {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .summary-card.errors {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .summary-card h3 {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .number {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .table-container {
+            margin: 20px 0;
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: #1e3c72;
+            color: white;
+        }
+
+        th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+        }
+
+        tr.in-custody {
+            background-color: #ffebee;
+        }
+
+        tr.not-in-custody {
+            background-color: #e8f5e9;
+        }
+
+        tr.error {
+            background-color: #fff9c4;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.in-custody {
+            background: #f44336;
+            color: white;
+        }
+
+        .status-badge.not-in-custody {
+            background: #4caf50;
+            color: white;
+        }
+
+        .status-badge.error {
+            background: #ff9800;
+            color: white;
+        }
+
+        .mugshot {
+            width: 75px;
+            height: 94px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .actions {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #downloadExcel {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        #downloadExcel:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(17, 153, 142, 0.4);
+        }
+
+        #resetBtn {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+        }
+
+        #resetBtn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(238, 9, 121, 0.4);
+        }
+
+        .error-message {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #c62828;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏛️ Dorchester County Jail Custody Checker</h1>
+            <p>Browser-based tool to check defendant custody status in real-time</p>
+        </header>
+
+        <div class="content">
+            <div id="dropZone">
+                <div class="icon">📄</div>
+                <p>Drag & Drop PDF Here</p>
+                <small>or click to browse (Prosecutor Worklist Report or CSV)</small>
+                <input type="file" id="fileInput" accept=".pdf,.csv" style="display: none;">
+            </div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="loadMugshots">
+                    <span>Load mugshots (slower, adds ~5-10 seconds)</span>
+                </label>
+            </div>
+
+            <div id="progress">
+                <div class="status">Processing...</div>
+                <div class="details"></div>
+            </div>
+
+            <div id="errorContainer"></div>
+
+            <div id="summaryContainer" class="hidden"></div>
+
+            <div id="actionsContainer" class="hidden">
+                <div class="actions">
+                    <button id="downloadExcel" disabled>Download Excel Report</button>
+                    <button id="resetBtn">Check Another File</button>
+                </div>
+            </div>
+
+            <div id="tableContainer" class="table-container hidden"></div>
+        </div>
+
+        <footer>
+            <p><strong>Dorchester County Jail Custody Checker</strong> - Browser Version</p>
+            <p>Accessing publicly available booking records from Dorchester County Sheriff's Office</p>
+            <p>Internal use only - 1st Circuit Solicitor's Office</p>
+        </footer>
+    </div>
+
+    <script>
+        // Configure PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+
+        // Global state
+        let allResults = [];
+        let summaryStats = {
+            total: 0,
+            inCustody: 0,
+            notInCustody: 0,
+            errors: 0
+        };
+        let usingProxy = false;
+
+        // CORS proxy configuration
+        const CORS_PROXIES = [
+            'https://corsproxy.io/?',
+            'https://api.allorigins.win/raw?url=',
+            'https://proxy.cors.sh/'
+        ];
+
+        /**
+         * Fetch with automatic CORS proxy fallback
+         * Tries direct fetch first, then falls back to CORS proxies if needed
+         */
+        async function fetchWithCORS(url, options = {}) {
+            // Try direct fetch first
+            try {
+                const response = await fetch(url, options);
+                return response;
+            } catch (directError) {
+                // Check if it's a CORS error
+                const isCORSError = directError.message.includes('CORS') ||
+                                   directError.message.includes('Failed to fetch') ||
+                                   directError.message.includes('NetworkError');
+
+                if (!isCORSError) {
+                    throw directError; // Not CORS, re-throw
+                }
+
+                console.warn('Direct fetch failed (likely CORS), trying proxy...', directError.message);
+
+                // Try each CORS proxy
+                for (const proxy of CORS_PROXIES) {
+                    try {
+                        const proxiedURL = proxy + encodeURIComponent(url);
+                        console.log(`Trying proxy: ${proxy}`);
+
+                        const response = await fetch(proxiedURL, {
+                            ...options,
+                            // Remove some headers that might cause issues through proxy
+                            headers: {
+                                ...options.headers,
+                                // Keep only essential headers
+                                'Accept': options.headers?.Accept || '*/*'
+                            }
+                        });
+
+                        if (response.ok) {
+                            usingProxy = true;
+                            console.log(`Success using proxy: ${proxy}`);
+                            return response;
+                        }
+                    } catch (proxyError) {
+                        console.warn(`Proxy ${proxy} failed:`, proxyError.message);
+                        continue;
+                    }
+                }
+
+                // All proxies failed
+                throw new Error(`Failed to fetch ${url}. Direct fetch failed due to CORS, and all proxy services failed. The jail website may be down.`);
+            }
+        }
+
+        // DOM elements
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const progress = document.getElementById('progress');
+        const progressDetails = progress.querySelector('.details');
+        const loadMugshotsCheckbox = document.getElementById('loadMugshots');
+        const summaryContainer = document.getElementById('summaryContainer');
+        const tableContainer = document.getElementById('tableContainer');
+        const actionsContainer = document.getElementById('actionsContainer');
+        const downloadExcelBtn = document.getElementById('downloadExcel');
+        const resetBtn = document.getElementById('resetBtn');
+        const errorContainer = document.getElementById('errorContainer');
+
+        // Drag and drop handlers
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) handleFile(file);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            location.reload();
+        });
+
+        downloadExcelBtn.addEventListener('click', exportToExcel);
+
+        // Main file handler
+        async function handleFile(file) {
+            showProgress('Reading file...');
+            errorContainer.innerHTML = '';
+
+            try {
+                let defendants = [];
+
+                if (file.name.toLowerCase().endsWith('.pdf')) {
+                    defendants = await extractDefendantsFromPDF(file);
+                } else if (file.name.toLowerCase().endsWith('.csv')) {
+                    defendants = await extractDefendantsFromCSV(file);
+                } else {
+                    throw new Error('Unsupported file type. Please use PDF or CSV.');
+                }
+
+                if (defendants.length === 0) {
+                    throw new Error('No defendants found in file.');
+                }
+
+                showProgress(`Found ${defendants.length} defendants. Fetching current confinements...`);
+
+                // Fetch all current confinements
+                const currentConfinements = await fetchAllCurrentConfinements();
+
+                showProgress(`Found ${currentConfinements.size} inmates in custody. Checking matches...`);
+
+                // Check each defendant
+                allResults = [];
+                for (let i = 0; i < defendants.length; i++) {
+                    const defendant = defendants[i];
+                    progressDetails.textContent = `Checking ${i + 1}/${defendants.length}: ${defendant.name}`;
+
+                    const result = await checkCustodyStatus(defendant, currentConfinements);
+                    allResults.push(result);
+
+                    // Small delay to avoid overwhelming the browser
+                    if (i % 10 === 0) await sleep(50);
+                }
+
+                // Load mugshots if requested
+                if (loadMugshotsCheckbox.checked) {
+                    await loadMugshots();
+                }
+
+                // Calculate summary
+                calculateSummary();
+
+                // Display results
+                displaySummary();
+                displayTable();
+
+                progress.classList.remove('visible');
+                actionsContainer.classList.remove('hidden');
+                downloadExcelBtn.disabled = false;
+
+            } catch (error) {
+                showError(error.message);
+                progress.classList.remove('visible');
+            }
+        }
+
+        // Extract defendants from PDF using coordinates (matches Python pdfplumber logic)
+        async function extractDefendantsFromPDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+            const defendants = [];
+
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+
+                // Extract words with positions
+                // transform[4] = x position, transform[5] = y position
+                const words = textContent.items.map(item => ({
+                    text: item.str,
+                    x: item.transform[4],
+                    y: item.transform[5],
+                    height: item.height
+                }));
+
+                // Find case numbers (contain "GS" and at x-position 100-200)
+                const caseWords = words.filter(w =>
+                    w.text.includes('GS') && w.x > 100 && w.x < 200
+                );
+
+                for (const caseWord of caseWords) {
+                    const caseNumber = caseWord.text.replace(/,$/, ''); // Remove trailing comma
+                    const y = caseWord.y;
+
+                    // Find matter number (same row, x < 100, contains dash)
+                    const matterWords = words.filter(w =>
+                        Math.abs(w.y - y) < 2 && // Same row (within 2 points)
+                        w.x < 100 &&
+                        w.text.includes('-') &&
+                        w.text.length > 3
+                    );
+                    const matterNumber = matterWords.length > 0 ? matterWords[0].text : '';
+
+                    // Find defendant name (same row, x-position 210-360)
+                    const nameWords = words.filter(w =>
+                        Math.abs(w.y - y) < 2 && // Same row
+                        w.x > 210 && w.x < 360
+                    );
+
+                    if (nameWords.length === 0) {
+                        continue;
+                    }
+
+                    // Sort by x-position and join
+                    nameWords.sort((a, b) => a.x - b.x);
+                    const defendantName = nameWords.map(w => w.text).join(' ');
+
+                    if (!defendantName || !defendantName.trim()) {
+                        continue;
+                    }
+
+                    // Parse name (should be in "Last, First Middle" format)
+                    // Validate it has first and last name
+                    if (defendantName.includes(',')) {
+                        const parts = defendantName.split(',');
+                        const last = parts[0].trim();
+                        const firstMiddle = parts[1] ? parts[1].trim() : '';
+
+                        if (last && firstMiddle) {
+                            defendants.push({
+                                name: defendantName.trim(),
+                                matterNumber: matterNumber,
+                                caseNumber: caseNumber,
+                                originalCharges: '',
+                                caseStatus: ''
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Remove duplicates based on name + case number
+            const seen = new Set();
+            const unique = [];
+            for (const def of defendants) {
+                const key = `${def.name.toLowerCase()}|${def.caseNumber}`;
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    unique.push(def);
+                }
+            }
+
+            return unique;
+        }
+
+        // Extract defendants from CSV
+        async function extractDefendantsFromCSV(file) {
+            const text = await file.text();
+            const lines = text.split('\n');
+
+            if (lines.length < 2) {
+                throw new Error('CSV file is empty or has no data rows.');
+            }
+
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            const nameCol = headers.indexOf('Defendants');
+
+            if (nameCol === -1) {
+                throw new Error('CSV missing "Defendants" column.');
+            }
+
+            const caseCol = headers.indexOf('CaseNumbers');
+            const chargesCol = headers.indexOf('Title');
+            const statusCol = headers.indexOf('CaseStatus');
+
+            const defendants = [];
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+
+                if (cols[nameCol]) {
+                    defendants.push({
+                        name: cols[nameCol],
+                        matterNumber: '',
+                        caseNumber: caseCol !== -1 ? cols[caseCol] : '',
+                        originalCharges: chargesCol !== -1 ? cols[chargesCol] : '',
+                        caseStatus: statusCol !== -1 ? cols[statusCol] : ''
+                    });
+                }
+            }
+
+            return defendants;
+        }
+
+        // Fetch all current confinements from jail database
+        async function fetchAllCurrentConfinements() {
+            // Proxy deployed on Vercel - handles session cookies for jail API
+            const PROXY_URL = 'https://jail-checker-cawxmjuww-jacks-projects-65c2ef0e.vercel.app/api/jail-proxy';
+
+            const allInmates = new Map(); // name -> inmate data
+
+            showProgress('Connecting to jail database...');
+
+            // Fetch pages in parallel batches for speed
+            const BATCH_SIZE = 5; // Fetch 5 pages at once
+            let pageIndex = 0;
+            let hasMore = true;
+            let totalInmates = 0;
+
+            while (hasMore) {
+                try {
+                    // Create batch of page requests
+                    const batchPromises = [];
+                    for (let i = 0; i < BATCH_SIZE; i++) {
+                        const page = pageIndex + i;
+                        batchPromises.push(
+                            fetch(`${PROXY_URL}?page=${page}`, { method: 'GET' })
+                                .then(response => ({ page, response }))
+                        );
+                    }
+
+                    showProgress(`Loading jail database (pages ${pageIndex}-${pageIndex + BATCH_SIZE - 1})...`);
+
+                    // Wait for all pages in batch to complete
+                    const results = await Promise.all(batchPromises);
+
+                    let emptyPageCount = 0;
+
+                    for (const { page, response } of results) {
+                        if (!response.ok) {
+                            console.error(`Page ${page} failed (HTTP ${response.status})`);
+                            continue;
+                        }
+
+                        const html = await response.text();
+
+                        // Parse HTML to extract inmates
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const cards = doc.querySelectorAll('.booking-card');
+
+                        if (cards.length === 0) {
+                            emptyPageCount++;
+                            continue;
+                        }
+
+                        cards.forEach(card => {
+                        // Extract name from header <h5> tag
+                        const header = card.querySelector('h5');
+                        if (header) {
+                            const fullName = header.textContent.trim();
+                            const nameParts = fullName.split(/\s+/);
+
+                            if (nameParts.length < 2) {
+                                return; // Skip if not enough parts
+                            }
+
+                            // Parse: "FIRST MIDDLE LAST" -> first, middle, last
+                            const first = nameParts[0];
+                            const last = nameParts[nameParts.length - 1];
+                            const middle = nameParts.length > 2 ? nameParts.slice(1, -1).join(' ') : '';
+
+                            // Extract mugshot URL
+                            const img = card.querySelector('img.booking-mugshot');
+                            const mugshotURL = img ? img.src : '';
+
+                            // Extract booking details from detail-row elements
+                            const detailRows = card.querySelectorAll('.detail-row');
+                            let bookingNumber = '';
+                            let bookingDate = '';
+                            let bondAmount = '';
+
+                            detailRows.forEach(row => {
+                                const label = row.querySelector('.detail-label');
+                                const value = row.querySelector('.detail-value');
+                                if (label && value) {
+                                    const labelText = label.textContent.trim();
+                                    const valueText = value.textContent.trim();
+
+                                    if (labelText.includes('Booked:')) {
+                                        bookingDate = valueText;
+                                    } else if (labelText.includes('Bond Total:')) {
+                                        bondAmount = valueText;
+                                    }
+                                }
+                            });
+
+                            // Extract booking number from "View Full Details" link
+                            const detailsLink = card.querySelector('a[href*="BookingID"]');
+                            if (detailsLink) {
+                                const href = detailsLink.getAttribute('href') || '';
+                                const match = href.match(/BookingID=(\d+)/);
+                                if (match) {
+                                    bookingNumber = match[1];
+                                }
+                            }
+
+                            // Extract charges from charge-item elements
+                            const chargeItems = card.querySelectorAll('.charge-item');
+                            const chargesList = [];
+                            chargeItems.forEach(item => {
+                                const chargeDetails = item.querySelector('.charge-details div');
+                                if (chargeDetails) {
+                                    chargesList.push(chargeDetails.textContent.trim());
+                                }
+                            });
+                            const charges = chargesList.join('; ');
+
+                            // Create normalized keys (matching Python logic)
+                            // Format: "last first middle" (space-separated, lowercase, no commas)
+                            const key1 = `${last} ${first} ${middle}`.toLowerCase().replace(/\s+/g, ' ').trim();
+                            const key2 = `${last} ${first}`.toLowerCase().replace(/\s+/g, ' ').trim(); // without middle
+
+                            const inmateData = {
+                                name: fullName,
+                                mugshotURL: mugshotURL,
+                                bookingNumber: bookingNumber,
+                                bookingDate: bookingDate,
+                                charges: charges,
+                                bondAmount: bondAmount
+                            };
+
+                            // Store under both keys for flexible matching
+                            allInmates.set(key1, inmateData);
+                            allInmates.set(key2, inmateData);
+                            totalInmates++;
+                        }
+                    });
+                    }
+
+                    // Update progress with count
+                    showProgress(`Found ${totalInmates} inmates so far...`);
+
+                    // If all pages in batch were empty, we're done
+                    if (emptyPageCount === BATCH_SIZE) {
+                        hasMore = false;
+                        break;
+                    }
+
+                    pageIndex += BATCH_SIZE;
+
+                } catch (error) {
+                    console.error(`Error fetching batch starting at page ${pageIndex}:`, error);
+                    throw new Error(`Network error while fetching inmate records: ${error.message}`);
+                }
+            }
+
+            if (allInmates.size === 0) {
+                throw new Error('No inmates found in jail database. The database may be empty or the API format may have changed.');
+            }
+
+            return allInmates;
+        }
+
+        // Check custody status for a defendant
+        async function checkCustodyStatus(defendant, currentConfinements) {
+            const result = {
+                defendant: defendant,
+                inCustody: false,
+                bookingNumber: '',
+                bookingDate: '',
+                charges: '',
+                bondAmount: '',
+                mugshotURL: '',
+                mugshotData: null,
+                errorMessage: ''
+            };
+
+            try {
+                // Parse defendant name from "Last, First Middle" format
+                const name = defendant.name.trim();
+                let last = '', first = '', middle = '';
+
+                if (name.includes(',')) {
+                    // Format: "Last, First Middle"
+                    const parts = name.split(',');
+                    last = parts[0].trim();
+                    const firstMiddle = parts[1].trim();
+                    const fmParts = firstMiddle.split(/\s+/);
+                    first = fmParts[0] || '';
+                    middle = fmParts.slice(1).join(' ');
+                } else {
+                    // Format: "First Last" or "First Middle Last"
+                    const parts = name.split(/\s+/);
+                    if (parts.length >= 2) {
+                        first = parts[0];
+                        last = parts[parts.length - 1];
+                        middle = parts.slice(1, -1).join(' ');
+                    }
+                }
+
+                if (!last || !first) {
+                    result.errorMessage = 'Could not parse name';
+                    return result;
+                }
+
+                // Create normalized keys matching Python format: "last first middle"
+                const key1 = `${last} ${first} ${middle}`.toLowerCase().replace(/\s+/g, ' ').trim();
+                const key2 = `${last} ${first}`.toLowerCase().replace(/\s+/g, ' ').trim(); // without middle
+
+                // Try both keys
+                for (const key of [key1, key2]) {
+                    if (currentConfinements.has(key)) {
+                        const inmate = currentConfinements.get(key);
+                        result.inCustody = true;
+                        result.bookingNumber = inmate.bookingNumber;
+                        result.bookingDate = inmate.bookingDate;
+                        result.charges = inmate.charges;
+                        result.bondAmount = inmate.bondAmount;
+                        result.mugshotURL = inmate.mugshotURL;
+                        return result;
+                    }
+                }
+
+                // Not found
+                result.inCustody = false;
+
+            } catch (error) {
+                result.errorMessage = error.message;
+            }
+
+            return result;
+        }
+
+        // Load mugshots for in-custody defendants
+        async function loadMugshots() {
+            const inCustodyResults = allResults.filter(r => r.inCustody && r.mugshotURL);
+
+            if (inCustodyResults.length === 0) {
+                return;
+            }
+
+            showProgress(`Loading ${inCustodyResults.length} mugshots...`);
+
+            // Load mugshots in parallel batches
+            const MUGSHOT_BATCH_SIZE = 10; // Load 10 mugshots at once
+            let completed = 0;
+
+            for (let batchStart = 0; batchStart < inCustodyResults.length; batchStart += MUGSHOT_BATCH_SIZE) {
+                const batchEnd = Math.min(batchStart + MUGSHOT_BATCH_SIZE, inCustodyResults.length);
+                const batch = inCustodyResults.slice(batchStart, batchEnd);
+
+                // Create promises for all mugshots in this batch
+                const batchPromises = batch.map(async (result) => {
+                    try {
+                        const response = await fetchWithCORS(result.mugshotURL);
+                        const blob = await response.blob();
+                        const reader = new FileReader();
+
+                        await new Promise((resolve) => {
+                            reader.onloadend = () => {
+                                result.mugshotData = reader.result;
+                                resolve();
+                            };
+                            reader.readAsDataURL(blob);
+                        });
+
+                        completed++;
+                        showProgress(`Loaded ${completed}/${inCustodyResults.length} mugshots...`);
+
+                    } catch (error) {
+                        console.error(`Failed to load mugshot for ${result.defendant.name}:`, error);
+                        completed++;
+                        showProgress(`Loaded ${completed}/${inCustodyResults.length} mugshots...`);
+                    }
+                });
+
+                // Wait for all mugshots in this batch to complete
+                await Promise.all(batchPromises);
+            }
+        }
+
+        // Calculate summary statistics
+        function calculateSummary() {
+            summaryStats.total = allResults.length;
+            summaryStats.inCustody = allResults.filter(r => r.inCustody).length;
+            summaryStats.notInCustody = allResults.filter(r => !r.inCustody && !r.errorMessage).length;
+            summaryStats.errors = allResults.filter(r => r.errorMessage).length;
+        }
+
+        // Display summary cards
+        function displaySummary() {
+            const proxyNotice = usingProxy ?
+                '<p style="text-align: center; color: #666; font-size: 12px; margin-top: 10px;">✓ Connected via CORS proxy service</p>' :
+                '';
+
+            summaryContainer.innerHTML = `
+                <div class="summary">
+                    <div class="summary-card total">
+                        <h3>Total Defendants</h3>
+                        <div class="number">${summaryStats.total}</div>
+                    </div>
+                    <div class="summary-card in-custody">
+                        <h3>In Custody</h3>
+                        <div class="number">${summaryStats.inCustody}</div>
+                    </div>
+                    <div class="summary-card not-in-custody">
+                        <h3>Not in Custody</h3>
+                        <div class="number">${summaryStats.notInCustody}</div>
+                    </div>
+                    <div class="summary-card errors">
+                        <h3>Errors</h3>
+                        <div class="number">${summaryStats.errors}</div>
+                    </div>
+                </div>
+                ${proxyNotice}
+            `;
+            summaryContainer.classList.remove('hidden');
+        }
+
+        // Display results table
+        function displayTable() {
+            // Sort: in-custody first, then not in custody, then errors
+            const sorted = [...allResults].sort((a, b) => {
+                if (a.inCustody && !b.inCustody) return -1;
+                if (!a.inCustody && b.inCustody) return 1;
+                if (a.errorMessage && !b.errorMessage) return 1;
+                if (!a.errorMessage && b.errorMessage) return -1;
+                return 0;
+            });
+
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            ${loadMugshotsCheckbox.checked ? '<th>Mugshot</th>' : ''}
+                            <th>Matter #</th>
+                            <th>Case #</th>
+                            <th>Defendant Name</th>
+                            <th>Status</th>
+                            <th>Booking Date</th>
+                            <th>Booking #</th>
+                            <th>Charges</th>
+                            <th>Bond Amount</th>
+                            <th>Error</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            sorted.forEach(result => {
+                const rowClass = result.inCustody ? 'in-custody' : (result.errorMessage ? 'error' : 'not-in-custody');
+                const statusText = result.inCustody ? 'IN CUSTODY' : (result.errorMessage ? 'ERROR' : 'Not in Custody');
+                const statusClass = result.inCustody ? 'in-custody' : (result.errorMessage ? 'error' : 'not-in-custody');
+
+                tableHTML += `<tr class="${rowClass}">`;
+
+                if (loadMugshotsCheckbox.checked) {
+                    if (result.mugshotData) {
+                        tableHTML += `<td><img src="${result.mugshotData}" class="mugshot" alt="Mugshot"></td>`;
+                    } else {
+                        tableHTML += '<td></td>';
+                    }
+                }
+
+                tableHTML += `
+                    <td>${escapeHtml(result.defendant.matterNumber)}</td>
+                    <td>${escapeHtml(result.defendant.caseNumber)}</td>
+                    <td>${escapeHtml(result.defendant.name)}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>${escapeHtml(result.bookingDate)}</td>
+                    <td>${escapeHtml(result.bookingNumber)}</td>
+                    <td>${escapeHtml(result.charges)}</td>
+                    <td>${escapeHtml(result.bondAmount)}</td>
+                    <td>${escapeHtml(result.errorMessage)}</td>
+                </tr>`;
+            });
+
+            tableHTML += '</tbody></table>';
+            tableContainer.innerHTML = tableHTML;
+            tableContainer.classList.remove('hidden');
+        }
+
+        // Export to Excel
+        function exportToExcel() {
+            const wb = XLSX.utils.book_new();
+
+            // Summary sheet
+            const summaryData = [
+                ['Summary Statistics'],
+                [],
+                ['Total Defendants Checked', summaryStats.total],
+                ['In Custody Count', summaryStats.inCustody],
+                ['Not in Custody Count', summaryStats.notInCustody],
+                ['Errors Count', summaryStats.errors]
+            ];
+            const summaryWS = XLSX.utils.aoa_to_sheet(summaryData);
+            XLSX.utils.book_append_sheet(wb, summaryWS, 'Summary');
+
+            // All results sheet
+            const sorted = [...allResults].sort((a, b) => {
+                if (a.inCustody && !b.inCustody) return -1;
+                if (!a.inCustody && b.inCustody) return 1;
+                return 0;
+            });
+
+            const allResultsData = [
+                ['Matter Number', 'Case Number', 'Defendant Name', 'Custody Status', 'Booking Date',
+                 'Booking Number', 'Charges', 'Bond Amount', 'Error Message']
+            ];
+
+            sorted.forEach(result => {
+                const status = result.inCustody ? 'IN CUSTODY' : (result.errorMessage ? 'ERROR' : 'Not in Custody');
+                allResultsData.push([
+                    result.defendant.matterNumber,
+                    result.defendant.caseNumber,
+                    result.defendant.name,
+                    status,
+                    result.bookingDate,
+                    result.bookingNumber,
+                    result.charges,
+                    result.bondAmount,
+                    result.errorMessage
+                ]);
+            });
+
+            const allResultsWS = XLSX.utils.aoa_to_sheet(allResultsData);
+            XLSX.utils.book_append_sheet(wb, allResultsWS, 'All Results');
+
+            // In custody only sheet
+            const inCustodyOnly = sorted.filter(r => r.inCustody);
+            const inCustodyData = [
+                ['DEFENDANTS IN CUSTODY'],
+                [],
+                ['Matter Number', 'Case Number', 'Defendant Name', 'Booking Date', 'Booking Number',
+                 'Charges', 'Bond Amount', 'Original Charges', 'Case Status']
+            ];
+
+            inCustodyOnly.forEach(result => {
+                inCustodyData.push([
+                    result.defendant.matterNumber,
+                    result.defendant.caseNumber,
+                    result.defendant.name,
+                    result.bookingDate,
+                    result.bookingNumber,
+                    result.charges,
+                    result.bondAmount,
+                    result.defendant.originalCharges,
+                    result.defendant.caseStatus
+                ]);
+            });
+
+            const inCustodyWS = XLSX.utils.aoa_to_sheet(inCustodyData);
+            XLSX.utils.book_append_sheet(wb, inCustodyWS, 'In Custody Only');
+
+            // Generate filename
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+            const filename = `custody_check_${timestamp}.xlsx`;
+
+            // Download
+            XLSX.writeFile(wb, filename);
+        }
+
+        // Utility functions
+        function showProgress(message) {
+            progress.classList.add('visible');
+            progressDetails.textContent = message;
+        }
+
+        function showError(message) {
+            errorContainer.innerHTML = `<div class="error-message"><strong>Error:</strong> ${escapeHtml(message)}</div>`;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

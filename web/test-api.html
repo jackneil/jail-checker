@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - Jail Database</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border-left: 4px solid #ccc;
+            border-radius: 4px;
+        }
+        .test-result.success {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+        .test-result.error {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        .test-result.warning {
+            border-color: #ff9800;
+            background: #fff3e0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jail Database API Test</h1>
+    <p>Open the browser console (F12) to see detailed logs</p>
+
+    <div>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        const resultsDiv = document.getElementById('results');
+
+        function addResult(testName, status, message, details = '') {
+            const div = document.createElement('div');
+            div.className = `test-result ${status}`;
+            div.innerHTML = `
+                <h3>${testName}</h3>
+                <p><strong>Status:</strong> ${status.toUpperCase()}</p>
+                <p>${message}</p>
+                ${details ? `<pre>${details}</pre>` : ''}
+            `;
+            resultsDiv.appendChild(div);
+        }
+
+        function clearResults() {
+            resultsDiv.innerHTML = '';
+        }
+
+        async function test1_DirectNoProxy() {
+            console.log('\n=== TEST 1: Direct call, no proxy, AgencyID in URL ===');
+            try {
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('search', '');
+                params.append('agency', '');
+                params.append('sort', 'name');
+                params.append('IDX', '0');
+
+                const url = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+
+                console.log('URL:', url);
+                console.log('Body:', params.toString());
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+                    },
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 1: Direct + AgencyID in URL', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 1: Direct + AgencyID in URL', 'error',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 1 error:', error);
+                addResult('Test 1: Direct + AgencyID in URL', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test2_DirectMinimalHeaders() {
+            console.log('\n=== TEST 2: Direct call, minimal headers ===');
+            try {
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('IDX', '0');
+
+                const url = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 2: Direct + Minimal Headers', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 2: Direct + Minimal Headers', 'error',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 2 error:', error);
+                addResult('Test 2: Direct + Minimal Headers', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test3_CORSProxyCorsproxy() {
+            console.log('\n=== TEST 3: CORS proxy (corsproxy.io) ===');
+            try {
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('IDX', '0');
+
+                const targetUrl = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+                const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
+
+                console.log('Proxy URL:', proxyUrl);
+
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 3: corsproxy.io', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 3: corsproxy.io', 'warning',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 3 error:', error);
+                addResult('Test 3: corsproxy.io', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test4_CORSProxyAllorigins() {
+            console.log('\n=== TEST 4: CORS proxy (allorigins.win) ===');
+            try {
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('IDX', '0');
+
+                const targetUrl = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl);
+
+                console.log('Proxy URL:', proxyUrl);
+
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 4: allorigins.win', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 4: allorigins.win', 'warning',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 4 error:', error);
+                addResult('Test 4: allorigins.win', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test5_DirectFormData() {
+            console.log('\n=== TEST 5: Direct call with FormData ===');
+            try {
+                const formData = new FormData();
+                formData.append('JMSAgencyID', 'SC018013C');
+                formData.append('IDX', '0');
+
+                const url = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 5: FormData instead of URLSearchParams', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 5: FormData instead of URLSearchParams', 'error',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 5 error:', error);
+                addResult('Test 5: FormData instead of URLSearchParams', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test6_NoAgencyIDParam() {
+            console.log('\n=== TEST 6: No AgencyID in URL (body only) ===');
+            try {
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('IDX', '0');
+
+                const url = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php';
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 6: No AgencyID in URL', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 6: No AgencyID in URL', 'error',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 6 error:', error);
+                addResult('Test 6: No AgencyID in URL', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test7_SessionThenPost() {
+            console.log('\n=== TEST 7: GET session page first, then POST (mimics Python) ===');
+            try {
+                // Step 1: GET the index.php page through proxy to establish session
+                const sessionUrl = 'https://cc.southernsoftware.com/bookingsearch/index.php?AgencyID=DorchesterCoSC';
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(sessionUrl);
+
+                console.log('Step 1: Getting session page through proxy...');
+                console.log('Proxy URL:', proxyUrl);
+
+                const sessionResponse = await fetch(proxyUrl, {
+                    method: 'GET'
+                });
+
+                console.log('Session response status:', sessionResponse.status);
+                const sessionHtml = await sessionResponse.text();
+                console.log('Session page loaded, length:', sessionHtml.length);
+
+                // Wait a moment (like Python does between requests)
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // Step 2: Now try POST to fetch_current_confinements
+                console.log('Step 2: POSTing to fetch_current_confinements...');
+
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('search', '');
+                params.append('agency', '');
+                params.append('sort', 'name');
+                params.append('IDX', '0');
+
+                const apiUrl = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+                const apiProxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl);
+
+                console.log('API Proxy URL:', apiProxyUrl);
+                console.log('POST body:', params.toString());
+
+                const response = await fetch(apiProxyUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 7: Session GET then POST', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 7: Session GET then POST', 'warning',
+                        `HTTP ${response.status}. Session may not persist through proxy.`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 7 error:', error);
+                addResult('Test 7: Session GET then POST', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test8_BothURLAndBody() {
+            console.log('\n=== TEST 8: AgencyID in URL params AND in request body ===');
+            try {
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('AgencyID', 'DorchesterCoSC');  // ADD THIS TOO
+                params.append('search', '');
+                params.append('agency', '');
+                params.append('sort', 'name');
+                params.append('IDX', '0');
+
+                const url = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+
+                console.log('POST URL:', proxyUrl);
+                console.log('Body:', params.toString());
+
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 8: AgencyID in both places', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 8: AgencyID in both places', 'warning',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 8 error:', error);
+                addResult('Test 8: AgencyID in both places', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test9_DifferentProxy() {
+            console.log('\n=== TEST 9: Different CORS proxy (proxy.cors.sh) ===');
+            try {
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('IDX', '0');
+
+                const targetUrl = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+                const proxyUrl = 'https://proxy.cors.sh/' + targetUrl;
+
+                console.log('Proxy URL:', proxyUrl);
+
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'x-cors-api-key': 'temp_key'  // Some proxies need this
+                    },
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 9: proxy.cors.sh', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 9: proxy.cors.sh', 'warning',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 9 error:', error);
+                addResult('Test 9: proxy.cors.sh', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test10_ThingproxyOrg() {
+            console.log('\n=== TEST 10: thingproxy.freeboard.io ===');
+            try {
+                const params = new URLSearchParams();
+                params.append('JMSAgencyID', 'SC018013C');
+                params.append('IDX', '0');
+
+                const targetUrl = 'https://cc.southernsoftware.com/bookingsearch/fetchesforajax/fetch_current_confinements.php?AgencyID=DorchesterCoSC';
+                const proxyUrl = 'https://thingproxy.freeboard.io/fetch/' + targetUrl;
+
+                console.log('Proxy URL:', proxyUrl);
+
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params.toString()
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    addResult('Test 10: thingproxy', 'success',
+                        `Got ${response.status} response with booking cards!`,
+                        text.substring(0, 300));
+                    return true;
+                } else {
+                    addResult('Test 10: thingproxy', 'warning',
+                        `HTTP ${response.status}`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 10 error:', error);
+                addResult('Test 10: thingproxy', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test11_VercelProxy() {
+            console.log('\n=== TEST 11: Our Vercel Proxy ===');
+            try {
+                const proxyURL = 'https://jail-checker-cawxmjuww-jacks-projects-65c2ef0e.vercel.app/api/jail-proxy';
+
+                console.log('Calling our Vercel proxy:', proxyURL);
+                console.log('Testing page 0...');
+
+                const response = await fetch(`${proxyURL}?page=0`, {
+                    method: 'GET'
+                });
+
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                console.log('Response text (first 500 chars):', text.substring(0, 500));
+
+                if (response.ok && text.includes('booking-card')) {
+                    // Count how many booking cards we got
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text, 'text/html');
+                    const cards = doc.querySelectorAll('.booking-card');
+
+                    addResult('Test 11: Vercel Proxy', 'success',
+                        `✅ Proxy works! Got ${cards.length} booking cards from page 0`,
+                        `Sample: ${text.substring(0, 300)}`);
+
+                    console.log(`Found ${cards.length} inmates on page 0`);
+                    return true;
+                } else {
+                    addResult('Test 11: Vercel Proxy', 'error',
+                        `HTTP ${response.status} - Proxy may have an issue`,
+                        text.substring(0, 500));
+                }
+            } catch (error) {
+                console.error('Test 11 error:', error);
+                addResult('Test 11: Vercel Proxy', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function test12_VercelProxyMultiplePages() {
+            console.log('\n=== TEST 12: Vercel Proxy - Multiple Pages ===');
+            try {
+                const proxyURL = 'https://jail-checker-cawxmjuww-jacks-projects-65c2ef0e.vercel.app/api/jail-proxy';
+
+                console.log('Testing pages 0, 1, 2 through our proxy...');
+
+                const pages = [0, 1, 2];
+                let totalInmates = 0;
+
+                for (const page of pages) {
+                    const response = await fetch(`${proxyURL}?page=${page}`, {
+                        method: 'GET'
+                    });
+
+                    if (response.ok) {
+                        const text = await response.text();
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(text, 'text/html');
+                        const cards = doc.querySelectorAll('.booking-card');
+                        totalInmates += cards.length;
+                        console.log(`Page ${page}: ${cards.length} inmates`);
+
+                        // Small delay between requests
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                }
+
+                if (totalInmates > 0) {
+                    addResult('Test 12: Multiple Pages via Proxy', 'success',
+                        `✅ Successfully fetched ${totalInmates} inmates from 3 pages!`,
+                        'Proxy can handle pagination properly.');
+                    return true;
+                } else {
+                    addResult('Test 12: Multiple Pages via Proxy', 'warning',
+                        'Pages loaded but no inmates found');
+                }
+            } catch (error) {
+                console.error('Test 12 error:', error);
+                addResult('Test 12: Multiple Pages via Proxy', 'error',
+                    `Error: ${error.message}`);
+            }
+            return false;
+        }
+
+        async function runAllTests() {
+            clearResults();
+            addResult('Starting Tests', 'warning', 'Running all test variations...');
+
+            const tests = [
+                test11_VercelProxy,              // NEW: Test our proxy first!
+                test12_VercelProxyMultiplePages,  // NEW: Test pagination
+                test7_SessionThenPost,
+                test8_BothURLAndBody,
+                test9_DifferentProxy,
+                test10_ThingproxyOrg,
+                test1_DirectNoProxy,
+                test2_DirectMinimalHeaders,
+                test3_CORSProxyCorsproxy,
+                test4_CORSProxyAllorigins,
+                test5_DirectFormData,
+                test6_NoAgencyIDParam
+            ];
+
+            for (const test of tests) {
+                const success = await test();
+                if (success) {
+                    addResult('🎉 FOUND WORKING METHOD!', 'success',
+                        `Test "${test.name}" succeeded! Check console for details.`);
+
+                    // If it's our proxy, don't continue testing other methods
+                    if (test === test11_VercelProxy || test === test12_VercelProxyMultiplePages) {
+                        addResult('✅ Proxy Solution Verified', 'success',
+                            'The Vercel proxy is working correctly. Browser version ready to use!');
+                        return;
+                    }
+                    return;
+                }
+                // Wait a bit between tests
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+
+            addResult('All Tests Complete', 'warning',
+                'No working method found. Check console for details of each attempt.');
+        }
+
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            console.log('Page loaded. Click "Run All Tests" to start, or check individual test functions in console.');
+        });
+    </script>
+</body>
+</html>
